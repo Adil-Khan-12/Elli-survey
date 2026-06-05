@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elli ❤️</title>
+<style>
+body{margin:0;font-family:system-ui,Arial,sans-serif;background:linear-gradient(135deg,#ff7eb3,#ffd6ec,#fff);overflow-x:hidden}
+.card{max-width:900px;margin:20px auto;background:rgba(255,255,255,.95);padding:30px;border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center}
+.hidden{display:none}
+h1{color:#ff3f9f}
+button{border:none;padding:14px 24px;border-radius:16px;margin:8px;font-weight:700;cursor:pointer}
+.good{background:#98ffba}.bad{background:#ffb3b3}.next{background:#d8c4ff}
+img{max-width:100%;border-radius:18px;margin-top:12px}
+.progress{height:12px;background:#eee;border-radius:999px;overflow:hidden;margin-bottom:20px}
+.bar{height:100%;width:0;background:#ff5ab3;transition:.5s}
+.heart{position:fixed;bottom:-30px;pointer-events:none;animation:f 8s linear infinite}
+@keyframes f{to{transform:translateY(-120vh) rotate(360deg);opacity:0}}
+#musicBtn{position:fixed;top:15px;right:15px;z-index:99}
+#confetti{position:fixed;inset:0;pointer-events:none}
+.glow{animation:pulse 2s infinite}
+@keyframes pulse{50%{transform:scale(1.05)}}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<button id="musicBtn">🔇 Music Off</button>
+
+<audio id="bgMusic" loop>
+  <source src="YouAndI_Clip_From_2m15s.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+<div class="progress"><div id="bar" class="bar"></div></div>
+
+<div id="loading">
+<h1>Preparing Elli Experience ❤️</h1>
+<p id="loadtxt">Loading Adil's confidence...</p>
+</div>
+
+<div id="musicScreen" class="hidden">
+<h1>🎵 One Tiny Request 🎵</h1>
+<p>This little experience is much better with the music on.</p>
+<p><b>Trust me on this one ❤️</b></p>
+<button class="good glow" onclick="startMusic()">▶ Play Music & Continue</button>
+</div>
+
+<div id="welcome" class="hidden">
+<h1>Hi Elli ❤️</h1>
+<p>Adil made this little website because he wanted to make you smile.</p>
+<p>Ready for a completely unbiased survey?</p>
+<button class="good" onclick="go('q1',25)">Begin ✨</button>
+</div>
+
+<div id="q1" class="hidden">
+<h1>How bad does Adil stink?</h1>
+<button class="good" onclick="q1g()">He smells beautiful ✨</button>
+<button class="bad" onclick="q1b()">He stinks like poop 💩</button>
+<div id="r1"></div>
+</div>
+
+<div id="q2" class="hidden">
+<h1>How chonky is Adil?</h1>
+<button class="good" onclick="q2z()">Zyzz 💪</button>
+<button class="bad" onclick="q2c()">CaseOh 🍔</button>
+<div id="r2"></div>
+</div>
+
+<div id="q3" class="hidden">
+<h1>Adil would really like to talk to you ❤️</h1>
+<p>Will you please reach out to him?</p>
+<button class="good" onclick="q3y()">Yes 😊</button>
+<button class="bad" onclick="q3n()">No 😅</button>
+<div id="r3"></div>
+</div>
+
+<div id="final" class="hidden">
+<h1>You are loved Elli ❤️</h1>
+<img src="https://media1.tenor.com/m/jQi93DqgJg4AAAAC/heath-ledger-rose.gif">
+<h2>🌹 From Adil 🌹</h2>
+<p>Thanks for taking part in this completely unbiased survey.</p>
+<p>I hope this made you smile today ❤️</p>
+<div style="font-size:40px;cursor:pointer" onclick="secret()">🌹</div>
+<div id="secretmsg"></div>
+</div>
+
+</div>
+
+<script>
+const ids=["loading","musicScreen","welcome","q1","q2","q3","final"];
+function show(id){ids.forEach(x=>document.getElementById(x).classList.add("hidden"));document.getElementById(id).classList.remove("hidden");}
+function go(id,p){show(id);document.getElementById("bar").style.width=p+"%";}
+
+for(let i=0;i<45;i++){
+ let h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML="❤️";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(4+Math.random()*8)+"s";
+ document.body.appendChild(h);
+}
+
+const msgs=["Loading Adil's confidence...","Loading elite rizz...","Loading message for Elli...","Ready ❤️"];
+let m=0;
+const t=setInterval(()=>{
+ document.getElementById("loadtxt").textContent=msgs[m++];
+ if(m>=msgs.length){
+   clearInterval(t);
+   setTimeout(()=>show("musicScreen"),800);
+ }
+},800);
+
+const music=document.getElementById("bgMusic");
+const musicBtn=document.getElementById("musicBtn");
+
+function startMusic(){
+ music.play().catch(()=>{});
+ musicBtn.textContent="🔊 Music On";
+ show("welcome");
+}
+
+musicBtn.onclick=()=>{
+ if(music.paused){music.play();musicBtn.textContent="🔊 Music On";}
+ else{music.pause();musicBtn.textContent="🔇 Music Off";}
+};
+
+function confetti(){
+ const c=document.getElementById('confetti'),x=c.getContext('2d');
+ c.width=innerWidth;c.height=innerHeight;
+ let p=Array.from({length:120},()=>({x:innerWidth/2,y:100,vx:(Math.random()-.5)*8,vy:Math.random()*-6,l:100}));
+ (function a(){
+  x.clearRect(0,0,c.width,c.height);
+  p.forEach(o=>{o.x+=o.vx;o.y+=o.vy;o.vy+=.1;o.l--;x.fillRect(o.x,o.y,4,4)});
+  p=p.filter(o=>o.l>0);
+  if(p.length)requestAnimationFrame(a);
+ })();
+}
+
+function q1g(){confetti();document.getElementById('r1').innerHTML='<h3>Scientific consensus achieved 😎</h3><img src="https://media1.tenor.com/m/7HdRz8jCFVoAAAAd/dob-dob-dob-rizz.gif"><br><button class="next" onclick="go(`q2`,50)">➡ Continue Investigation</button>';}
+function q1b(){document.getElementById('r1').innerHTML='<h3>💩 Research funding has been revoked.</h3><img src="https://media.tenor.com/oxtTJF-1fGQAAAAj/speech-bubble-speech.gif"><br><button class="next" onclick="go(`q2`,50)">➡ Continue Investigation</button>';}
+function q2z(){confetti();document.getElementById('r2').innerHTML='<img src="https://media1.tenor.com/m/TsNQm6dVq0MAAAAd/zyzz-glasses-zyzz.gif"><br><img src="https://media1.tenor.com/m/VccdABiHXqUAAAAC/thank-you.gif"><br><button class="next" onclick="go(`q3`,75)">➡ Proceed To Final Question</button>';}
+function q2c(){document.getElementById('r2').innerHTML='<img src="https://media1.tenor.com/m/fQAv9LMYVOIAAAAd/caseoh-caseoh-games.gif"><br><img src="https://media1.tenor.com/m/OakZsA0__LEAAAAd/zs-good-morning.gif"><br><button class="next" onclick="go(`q3`,75)">➡ Proceed To Final Question</button>';}
+function q3y(){confetti();document.getElementById('r3').innerHTML='<h3>YAY! Just message me on Snapchat 🥳</h3><img src="https://media1.tenor.com/m/_hUq1BSUsiMAAAAC/cat-cute.gif"><br><button class="next" onclick="go(`final`,100)">🌹 Open Final Message</button>';}
+function q3n(){document.getElementById('r3').innerHTML='<h3>That is okay ❤️ I am here for you.</h3><img src="https://media1.tenor.com/m/OakZsA0__LEAAAAd/zs-good-morning.gif"><br><button class="next" onclick="go(`final`,100)">🌹 Open Final Message</button>';}
+let clicks=0;
+function secret(){clicks++;if(clicks>=3){document.getElementById('secretmsg').innerHTML='<h2>🎉 Bonus Message Unlocked!</h2><p>You are awesome, Elli ❤️</p>';confetti();}}
+</script>
+</body>
+</html>
